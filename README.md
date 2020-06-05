@@ -19,6 +19,8 @@ Run the application in a terminal by typing `./run`
 
 ## Sending Messages
 
+**NOTE**: Please use chrome
+
 Fill in the API key provided through signal.
 Fill phone numbers with a comma seperated list of numbers
 i.e. "123123456, 1231231234"
