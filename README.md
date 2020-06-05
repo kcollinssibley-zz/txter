@@ -15,9 +15,16 @@ to it.
 
 ### Mac & Linux
 
-Open a terminal and navigate to where you saved this code using `cd`.
-
+Run the application in a terminal by typing `./run`
 
 ## Sending Messages
 
+Fill in the API key provided through signal.
+Fill phone numbers with a comma seperated list of numbers
+i.e. "123123456, 1231231234"
+Type your message, and hit `Send Texts
+
 ## Receiving Messages
+
+Still working on getting a master list of phone numbers, but you can submit
+your number somewhere.
