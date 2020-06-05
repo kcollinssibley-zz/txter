@@ -1,0 +1,46 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Boston Area Police Alerts</title>
+    <meta name="description" content="Boston Area Police Alerts">
+    <meta name="author" content="SitePoint">
+</head>
+
+<body>
+    <script>
+        function sendTexts() {
+            var api_key = document.getElementById("api_key");
+            var numbers = document.getElementById("numbers");
+            var message = document.getElementById("message");
+
+            fetch('http://127.0.0.1:2112/sendtexts', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    phone: numbers.value,
+                    message: message.value,
+                    key: api_key.value,
+                }),
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                alert(data);
+            });
+
+            message.value = "";
+        }
+    </script>
+    <form>
+        <label for="api_key">API Key</label><br />
+        <input type="text" id="api_key" name="api_key"><br />
+        <label for="numbers">Phone Numbers</label><br />
+        <textarea id="numbers" name="numbers"></textarea><br />
+        <label for="message">Message:</label><br />
+        <textarea id="message" name="message"></textarea><br /><br />
+        <input type="button" value="Send Texts" onclick="sendTexts()">
+    </form>
+</body>
+</html>
