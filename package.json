@@ -1,6 +1,6 @@
 {
   "name": "txter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Boston Area Police Updates",
   "main": "app.js",
   "scripts": {
