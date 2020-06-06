@@ -55,10 +55,11 @@ Unzip and move the created `txter-master` folder to a well known location
 
 **NOTE**: Please use chrome
 
-Fill in the API key provided through signal.
-Fill phone numbers with a comma seperated list of numbers
-i.e. "123123456, 1231231234"
-Type your message, and hit `Send Texts
+1. Fill in the API key provided through signal.
+2. Download `Spotters.csv` file from google drive. Link in signal.
+3. Load `Spotters.csv` using the `Choose File` button.
+4. Type your message
+5. Hit `Send Texts`
 
 ## Receiving Messages
 
