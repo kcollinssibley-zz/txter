@@ -40,7 +40,10 @@
                 <label for="api_key">API Key</label><br />
                 <input type="text" id="api_key" name="api_key"><br />
                 <label for="message">Message:</label><br /><br />
-                <textarea id="message" name="message" rows="4" cols="50"></textarea><br /><br />
+                <textarea id="message" name="message" rows="4" cols="50"></textarea>
+                <input type="button" value="Clear" onclick="clearMsg()">
+                <span>Characters remaining: <span id="count">111</span></span>
+                <br /><br />
                 <input type="button" value="Send Texts" onclick="sendTexts()">
                 <label for="texts_remaining">Texts Remaining: ~</label>
                 <span id="texts_remaining">n/a</span>
@@ -56,8 +59,9 @@
     </div>
     <script>
         var header =
-"BPD Spotter Updates \
-~~~~~~~~~~~~~~~~~~~~\n";
+"BPD Spotter Updates\n\
+~~~~\n";
+        var max_length = 111;
 
         var fileInput = document.getElementById("csv");
 
@@ -72,6 +76,11 @@
 
         fileInput.addEventListener('change', readFile);
 
+        document.getElementById('message').onkeyup = function () {
+            document.getElementById('count').innerHTML =
+                (max_length - this.value.length);
+        };
+
         function getStatus(api_key) {
             fetch('http://127.0.0.1:2112/status/' + api_key, {
                 method: 'get',
@@ -85,10 +94,26 @@
             });
         }
 
+        function clearMsg() {
+            var message = document.getElementById("message");
+            var count = document.getElementById("count");
+
+            message.value = "";
+            count.textContent = max_length;
+        }
+
         function sendTexts() {
             var api_key = document.getElementById("api_key");
             var numbers = document.getElementById("numbers");
             var message = document.getElementById("message");
+            var msg_length =
+                parseInt(document.getElementById("count").textContent);
+
+            console.log(msg_length);
+            if (msg_length < 0) {
+                alert("Message too long, cannot send");
+                return;
+            }
 
             var date_sent = new Date();
 
