@@ -45,18 +45,9 @@ Unzip and move the created `txter-master` folder to a well known location
 
 #### Windows
 
-1. Open a terminal by searching `cmd` in the start menu.
-1. Navigate to where `txter` is downloaded
-    i.e.
-
-    ```powershell
-    cd Desktop/txter-master
-    ```
-1. Run the application by typing the following and hit enter:
-
-    ```powershell
-    windows_run.bat
-    ```
+1. Open the `txter-master` folder where ever you saved it.
+1. Double click `windows_run.bat`
+1. Agree to whatever it asks
 1. Open chrome **NOTE** Chrome is the only supported browser at the moment
 1. Navigate to http://127.0.0.1:2112/
 
