@@ -1,12 +1,15 @@
 var express = require('express');
 var request = require('request');
 var path = require('path');
+var bodyParser = require('body-parser');
+var querystring = require('querystring');
 var app = express();
 
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.post('/sendtexts', function(req, res) {
-    numbers = req.body.phone.split(",");
+    let numbers = req.body.phone.split(",");
 
     for (var i = 0; i < numbers.length; i++) {
         request.post('https://textbelt.com/text', {
@@ -18,8 +21,20 @@ app.post('/sendtexts', function(req, res) {
         }, (err, httpResponse, body) => {
             console.log(JSON.parse(body));
         });
-    }
-})
+    };
+
+    res.send()
+});
+
+app.get('/status/:key', function(req, res) {
+    let key = req.params.key;
+
+    request.get('https://textbelt.com/quota/' + key,
+        (err, httpResponse, body) => {
+            let remaining = JSON.parse(body);
+            res.send(remaining);
+        });
+});
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/txter.html'))

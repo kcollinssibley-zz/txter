@@ -7,40 +7,112 @@
     <title>Boston Area Police Alerts</title>
     <meta name="description" content="Boston Area Police Alerts">
     <meta name="author" content="SitePoint">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Create two equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+            height: 300px; /* Should be removed. Only for demonstration */
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="row">
+        <h2>Boston Area Police Alerts System</h2>
+    </div>
+    <div class="row">
+        <form>
+            <div class="column" style="background-color:#aaa;">
+                <label for="api_key">API Key</label><br />
+                <input type="text" id="api_key" name="api_key"><br />
+                <label for="message">Message:</label><br /><br />
+                <textarea id="message" name="message" rows="4" cols="50"></textarea><br /><br />
+                <input type="button" value="Send Texts" onclick="sendTexts()">
+                <label for="texts_remaining">Texts Remaining: ~</label>
+                <span id="texts_remaining">n/a</span>
+            </div>
+            <div class="column" style="background-color:#bbb;">
+                <label for="numbers">Phone Numbers</label><br />
+                <input id="csv" type="file"><br />
+                <output id="numbers">
+                    <i>phone numbers will appear here</i>
+                </output><br />
+            </div>
+        </form>
+    </div>
     <script>
+        var header =
+"BPD Spotter Updates \
+~~~~~~~~~~~~~~~~~~~~\n";
+
+        var fileInput = document.getElementById("csv");
+
+        readFile = function () {
+            var reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById('numbers').innerHTML = reader.result;
+            };
+            // start reading the file. When it is done, calls the onload event defined above.
+            reader.readAsBinaryString(fileInput.files[0]);
+        };
+
+        fileInput.addEventListener('change', readFile);
+
+        function getStatus(api_key) {
+            fetch('http://127.0.0.1:2112/status/' + api_key, {
+                method: 'get',
+                headers: { 'Content-Type': 'application/json' },
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data);
+                document.getElementById("texts_remaining").textContent =
+                    data.quotaRemaining;
+            });
+        }
+
         function sendTexts() {
             var api_key = document.getElementById("api_key");
             var numbers = document.getElementById("numbers");
             var message = document.getElementById("message");
+
+            var date_sent = new Date();
 
             fetch('http://127.0.0.1:2112/sendtexts', {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     phone: numbers.value,
-                    message: message.value,
+                    message:
+                        header +
+                        message.value +
+                        "\n" +
+                        date_sent.toLocaleString(),
                     key: api_key.value,
                 }),
             }).then(response => {
-                return response.json();
+                return response;
             }).then(data => {
-                alert(data);
+                console.log(data);
             });
 
             message.value = "";
+            getStatus(api_key.value);
         }
     </script>
-    <form>
-        <label for="api_key">API Key</label><br />
-        <input type="text" id="api_key" name="api_key"><br />
-        <label for="numbers">Phone Numbers</label><br />
-        <textarea id="numbers" name="numbers"></textarea><br />
-        <label for="message">Message:</label><br />
-        <textarea id="message" name="message"></textarea><br /><br />
-        <input type="button" value="Send Texts" onclick="sendTexts()">
-    </form>
 </body>
 </html>
