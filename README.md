@@ -41,7 +41,7 @@ Unzip and move the created `txter-master` folder to a well known location
     ```
 
 1. Open chrome **NOTE** Chrome is the only supported browser at the moment
-1. Navigate to `http://127.0.0.1:2112/`
+1. Navigate to http://127.0.0.1:2112/
 
 #### Windows
 
@@ -58,7 +58,7 @@ Unzip and move the created `txter-master` folder to a well known location
     windows_run.bat
     ```
 1. Open chrome **NOTE** Chrome is the only supported browser at the moment
-1. Navigate to `http://127.0.0.1:2112/'
+1. Navigate to http://127.0.0.1:2112/
 
 ## Sending Messages
 
